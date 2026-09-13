@@ -33,7 +33,7 @@ impl Calculator {
     }
 
     pub fn add_operator(&mut self, operator: Operator) {
-        self.expression.push_str(operator.expression());
+        self.expression.push_str(operator.expression(self.decimal_comma));
     }
 
     pub fn on_number_press(&mut self, number: f32) {
@@ -42,16 +42,31 @@ impl Calculator {
 
     pub fn on_operator_press(&mut self, operator: &Operator) -> Option<Message> {
         match operator {
-            Operator::Add => self.add_operator(Operator::Add),
-            Operator::Subtract => self.add_operator(Operator::Subtract),
-            Operator::Multiply => self.add_operator(Operator::Multiply),
-            Operator::Divide => self.add_operator(Operator::Divide),
-            Operator::Modulus => self.add_operator(Operator::Modulus),
-            Operator::Point => self.add_operator(Operator::Point),
-            Operator::ParenthesesOpen => self.add_operator(Operator::ParenthesesOpen),
-            Operator::ParenthesesClose => self.add_operator(Operator::ParenthesesClose),
-            Operator::Power => self.add_operator(Operator::Power),
-            Operator::SquareRoot => self.add_operator(Operator::SquareRoot),
+            Operator::Add
+            | Operator::Subtract
+            | Operator::Multiply
+            | Operator::Divide
+            | Operator::Modulus
+            | Operator::Point
+            | Operator::ParenthesesOpen
+            | Operator::ParenthesesClose
+            | Operator::Power
+            | Operator::SquareRoot
+            | Operator::Comma
+            | Operator::Log
+            | Operator::Ln
+            | Operator::Log2
+            | Operator::Factorial
+            | Operator::Sin
+            | Operator::Cos
+            | Operator::Tan
+            | Operator::Asin 
+            | Operator::Acos 
+            | Operator::Atan
+            | Operator::Pi
+            | Operator::E
+            | Operator::Reciprocal => self.add_operator(operator.clone()),
+
             Operator::Clear => self.clear(),
             Operator::Negate => self.toggle_sign(),
             Operator::Equal => return Some(Message::Evaluate),
@@ -115,6 +130,7 @@ impl Calculator {
                         | '%'
                         | '.'
                         | ','
+                        | ';'
                         | '('
                         | ')'
                         | '^'
